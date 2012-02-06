@@ -1,9 +1,16 @@
-h2 '主页'
-h4 '用户列表：'
-ul ->
-  for user in @users
-    li ->
-      user.username
+section ->
+  h4 '用户列表：'
+  div '.row', ->
+    div '.span8', ->
+      table '.table.table-striped', ->
+        thead ->
+          tr ->
+            th '用户信息'
+        tbody ->
+          for user in @users
+            tr ->
+              td ->
+                a id: user.id, href: '#', -> user.username
 
 
 

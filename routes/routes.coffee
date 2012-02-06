@@ -7,9 +7,7 @@ nohm.setPrefix('cms-001')
 exports.index =  (req, res) ->
   res.render 'index',
     user: req.user
-
-exports.login = (req, res) ->
-  res.render 'login'
+    sitename: '我的小站'
 
 exports.session = (req, res) ->
   res.redirect '/'
@@ -29,8 +27,12 @@ exports.newUser = (req, res) ->
   user.save  (err) ->
     if err is 'invalid'
       console.log 'properties were invalid: ', user.errors
+      res.json
+        result: 'err'
     else if err
-      console.log  err
+      console.log err
+      res.json
+        result: 'err'
     else
 #      user.remove (err) ->
 #        if err console.log err

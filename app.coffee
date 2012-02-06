@@ -1,5 +1,5 @@
 express = require 'express'
-routes = require './routes'
+routes = require './routes/routes'
 system = require './routes/system'
 passport = require 'passport'
 util = require 'util'
@@ -89,12 +89,11 @@ passport.use new LocalStrategy (username, password, done) ->
 
 ensureAuthenticated = (req, res, next) ->
   if req.isAuthenticated() then return next()
-  res.redirect '/login'
+  res.redirect '/'
 
 app.get '/', routes.index
-app.get '/login', routes.login
 app.get '/system', ensureAuthenticated, system.system
-app.post '/sessions', (passport.authenticate 'local', failureRedirect: '/login'), routes.session
+app.post '/sessions', (passport.authenticate 'local', failureRedirect: '/'), routes.session
 app.get '/logout', routes.logout
 app.post '/users', routes.newUser
 

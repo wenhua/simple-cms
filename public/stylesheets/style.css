@@ -1,8 +1,11 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #888;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
-a {
-  color: #00b7ff;
+legend {
+  text-align: center;
+}
+#nav-r-o a {
+  margin-right: 2px;
+  margin-left: 2px;
 }

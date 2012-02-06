@@ -9,5 +9,5 @@ switchAdmin = ->
     $(@).hide()
 
 $ ->
-  hideLabel()
+#  hideLabel()
   switchAdmin()
