@@ -7,6 +7,9 @@ html ->
     link rel: 'stylesheet', href: '/vendor/bootstrap.min.2.0.0.css'
     script src: '/vendor/jquery-1.7.1.min.js'
     script src: '/vendor/bootstrap.min.2.0.0.js'
+    script src: '/vendor/spine-1.0.5/spine.js'
+    script src: '/vendor/spine-1.0.5/route.js'
+    script src: '/vendor/spine-1.0.5/ajax.js'
     script src: '/javascripts/common.js'
   body ->
     div '.navbar.navbar-fixed-top', ->
@@ -19,6 +22,9 @@ html ->
                 a href: '/' , ->
                   i class: 'icon-home icon-white'
                   "首页"
+              li ->
+                a href: '/system' , ->
+                  "系统"
             p '#nav-r-o.navbar-text.pull-right', ->
               if @user
                   text "你好：#{@user.username} &nbsp;
@@ -30,6 +36,6 @@ html ->
                   a '#login-o.btn.btn-small.btn-primary', href: '#login' , -> '登录'
                   a '#sigup.btn.btn-small.btn-primary', href: '#signup-form' , -> '注册'
     div '.container-fluid', ->
-      div '.row-fluid', ->
+      div '#up.row-fluid', ->
         @body
 

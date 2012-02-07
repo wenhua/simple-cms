@@ -1,8 +1,9 @@
 nhom = (require 'nohm').Nohm
 redis = (require 'redis').createClient()
+_ = require 'underscore'
 nhom.setClient redis
 
-module.exports = nhom.model 'User',
+User = nhom.model 'User',
   properties:
     username:
       type: 'string'
@@ -30,8 +31,9 @@ module.exports = nhom.model 'User',
       "#{@p 'firstName'}#{@p 'lastName'}"
     store: (data, callback) ->
       self = @
-#      @fill data
       @save ->
         delete self.errors.salt;
         callback.apply self, Array.prototype.slice.call arguments, 0
+_.extend exports,
+  User: User
 

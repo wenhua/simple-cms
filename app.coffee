@@ -6,7 +6,7 @@ util = require 'util'
 LocalStrategy = require('passport-local').Strategy
 
 nohm = (require 'nohm').Nohm
-userModel = require './model/userModel'
+models = require './model/models'
 redis = (require 'redis').createClient()
 nohm.setClient redis
 nohm.setPrefix('cms-001')
@@ -43,7 +43,7 @@ app.configure 'production', ->
 
 
 findById = (id, fn) ->
-  user = new userModel()
+  user = new models.User
   user.load id, (err, props) ->
     if err
       return fn new Error "User #{id} does not exist"
@@ -56,11 +56,11 @@ findById = (id, fn) ->
       }
 
 findByUsername = (username, fn) ->
-  userModel.find {username: username}, (err, ids) ->
+  (new models.User).find {username: username}, (err, ids) ->
     if err
       return fn null, null
     id = ids[0]
-    user = new userModel()
+    user = new models.User
     user.load id, (err, props) ->
       if err
         return fn null, null
@@ -92,10 +92,12 @@ ensureAuthenticated = (req, res, next) ->
   res.redirect '/'
 
 app.get '/', routes.index
-app.get '/system', ensureAuthenticated, system.system
 app.post '/sessions', (passport.authenticate 'local', failureRedirect: '/'), routes.session
 app.get '/logout', routes.logout
 app.post '/users', routes.newUser
+#app.get '/system', ensureAuthenticated, system.system
+app.get '/system', system.index
+app.post '/widgets', system.createWidget
 
 app.listen 3000
 console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"

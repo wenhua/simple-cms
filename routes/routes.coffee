@@ -1,5 +1,5 @@
 nohm = (require 'nohm').Nohm
-userModel = require '../model/userModel'
+models = require '../model/models'
 redis = (require 'redis').createClient()
 nohm.setClient redis
 nohm.setPrefix('cms-001')

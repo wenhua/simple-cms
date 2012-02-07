@@ -2,6 +2,7 @@
     "name":"application-name", "version":"0.0.1", "private":true,
     "dependencies":{
         "passport": ">= 0.0.0",
+        "underscore": ">= 0.0.0",
         "passport-local": ">= 0.0.0",
         "nohm": ">= 0.0.0",
         "coffee-script":">= 0.0.1",
