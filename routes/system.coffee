@@ -33,16 +33,28 @@ index =  (req, res) ->
           pass()
 
 updateWidget = (req, res) ->
+  _CREATE = 0
+  _UPDATE = 1
   attributes = (_ req.body).clone()
-  id = attributes.id
+  id = attributes.widgetId
+  action = if id is attributes.id then _UPDATE else _CREATE
+  now = (new Date()).getTime()
+  attributes.createTime = now if action is _CREATE
+  attributes.updateTime = now
   delete attributes.id
-  console.log "#{req.length} 11111111"
-  for p in req
-    console.log p
+  widget = if action is _CREATE then nohm.factory 'Widget' else new models.Widget id
 
-
-
-  res.send attributes
+  widget.p attributes
+  widget.save  (err) ->
+    if not err
+      res.json
+        result: true
+        data: widget.allProperties()
+    else if err is 'invalid'
+      res.json err: '输入数据不符合规范，请检查'
+    else
+      console.log "#{err} widget save error!!!!"
+      res.send 500
 
 _.extend exports,
   createWidget: updateWidget

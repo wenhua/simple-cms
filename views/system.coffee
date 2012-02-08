@@ -1,27 +1,34 @@
-a '#add-widget', href: '#', -> '新建小部件'
+div '.span3', ->
+  div '.well.sidebar-nav', ->
+    ul '.nav.nav-list', ->
+      li '.nav-header', -> '小部件管理'
+      li -> a '#add-widget.active', href: '#', -> '新建小部件'
+      li -> a '#list-widget', href: '#', -> '小部件列表'
 
-h4 '用户列表：'
-div '.row', ->
-  div '.span8', ->
-    table '.table.table-striped', ->
-      thead ->
-        tr ->
-          th '用户'
-          th '电子邮件'
-          th '操作'
-      tbody ->
-        for user in @users
+div '.span9', ->
+  h4 '用户列表：'
+  div '.row', ->
+    div '.span8', ->
+      table '.table.table-striped', ->
+        thead ->
           tr ->
-            td ->
-              a id: user.id, href: '#', -> user.fullName
-            td ->
-              user.email
-            td ->
-              a '.del-user', id: user.id, href: '#', -> '删除'
+            th '用户'
+            th '电子邮件'
+            th '操作'
+        tbody ->
+          for user in @users
+            tr ->
+              td ->
+                a id: user.id, href: '#', -> user.fullName
+              td ->
+                user.email
+              td ->
+                a '.del-user', id: user.id, href: '#', -> '删除'
 
 div '#widget-form.modal.hide.fade', ->
   form '#widget-f.form-horizontal', method: 'post', action: '#', ->
     fieldset ->
+      input '#f-widget-id', type: 'hidden', name: 'widget', value: @widget.id if @widget?
       legend '添加小部件'
       div '.control-group', ->
         label '.control-label', for: 'widget-name', -> '名称'
@@ -35,8 +42,8 @@ div '#widget-form.modal.hide.fade', ->
         label '.control-label', for: 'widget-data', -> '数据'
         div '.controls', ->
           textarea '#widget-data.input-xxlarge', rows: '6', name: 'data', placeholder: '数据', required: true
-      div '.form-actions', ->
-        input '.btn.btn-primary', type: 'submit', value: '保存'
+    div '.form-actions', ->
+      input '.btn.btn-primary', type: 'submit', value: '保存'
 
 
 

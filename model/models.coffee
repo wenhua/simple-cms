@@ -34,6 +34,29 @@ User = nhom.model 'User',
       @save ->
         delete self.errors.salt;
         callback.apply self, Array.prototype.slice.call arguments, 0
+
+Widget = nhom.model 'Widget',
+  properties:
+    name:
+      type: 'string'
+      unique: yes
+      index: yes
+      validations: ['notEmpty']
+    data:
+      type: 'string'
+    template:
+      type: 'string'
+    createTime:
+      type: 'timestamp'
+      defaultValue: -> new Date()
+    updateTime:
+      type: 'timestamp'
+      defaultValue: -> new Date()
+    profile:
+      type: 'json'
+
+
 _.extend exports,
   User: User
+  Widget: Widget
 
