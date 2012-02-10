@@ -4,6 +4,13 @@ class Widget extends Spine.Model
   @url: "/widgets"
 
 class WidgetCtrl extends Spine.Controller
+  constructor: ->
+    @routes
+      "add-widget": ->
+        console.log "#{@} WWWWWWWWWWWWWWWWWWWwww"
+      "widgets": ->
+        console.log "#{@} SSSSSSSSSSSSSSSSSSSSSw"
+
   events:
     'click #add-widget': 'add'
     'submit form': 'create'
@@ -30,5 +37,6 @@ class WidgetCtrl extends Spine.Controller
     widget.save()
 $ ->
   new WidgetCtrl el: $("#up")
+  Spine.Route.setup()
 
 

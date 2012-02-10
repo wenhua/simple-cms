@@ -2,8 +2,8 @@ div '.span3', ->
   div '.well.sidebar-nav', ->
     ul '.nav.nav-list', ->
       li '.nav-header', -> '小部件管理'
-      li -> a '#add-widget.active', href: '#', -> '新建小部件'
-      li -> a '#list-widget', href: '#', -> '小部件列表'
+      li -> a '#add-widget.active', href: '#add-widget', -> '新建小部件'
+      li -> a '#list-widget', href: '#widgets', -> '小部件列表'
 
 div '.span9', ->
   h4 '用户列表：'

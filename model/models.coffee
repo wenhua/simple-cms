@@ -20,20 +20,13 @@ User = nhom.model 'User',
       validations: ['notEmpty']
     firstName:
       type: 'string'
-      unique: no
     lastName:
       type: 'string'
-      unique: no
     profile:
       type: 'json'
   methods:
     fullName: ->
       "#{@p 'firstName'}#{@p 'lastName'}"
-    store: (data, callback) ->
-      self = @
-      @save ->
-        delete self.errors.salt;
-        callback.apply self, Array.prototype.slice.call arguments, 0
 
 Widget = nhom.model 'Widget',
   properties:
