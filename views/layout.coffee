@@ -8,8 +8,11 @@ html ->
     script src: '/vendor/jquery-1.7.1.min.js'
     script src: '/vendor/bootstrap.min.2.0.0.js'
     script src: '/vendor/spine-1.0.5/spine.js'
+    script src: '/vendor/spine-1.0.5/manager.js'
     script src: '/vendor/spine-1.0.5/route.js'
     script src: '/vendor/spine-1.0.5/ajax.js'
+    script src: '/vendor/sammy/sammy-0.7.1.min.js'
+    script src: '/vendor/handlebars-1.0.0.beta.6.js'
     script src: '/javascripts/common.js'
   body ->
     div '.navbar.navbar-fixed-top', ->

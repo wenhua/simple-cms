@@ -32,6 +32,45 @@ index =  (req, res) ->
             objs.push attributes
           pass()
 
+destroyUser = (req, res) ->
+  id = req.params.id
+  user = new models.User
+  user.load id, (err, props) ->
+    if err
+      console.log "no find #{err}"
+      res.send 500
+    else
+      user.remove (err) ->
+        if not err
+          res.redirect "/system"
+        else
+          console.log "delete unsuccess #{err}"
+          res.send 500
+
+listWidgets =  (req, res) ->
+  objs = []
+  (new models.Widget).find (err, ids) ->
+    if err
+      console.log err; res.send 500
+    else
+      pass = _.after ids.length, ->
+        res.json
+          widgets: (_ objs).map (obj) ->{
+              id: obj.id
+              name: obj.name
+              data: obj.data
+              template: obj.template
+            }
+      _.each ids, (id) ->
+        widget = new models.Widget
+        widget.load id, (err, props) ->
+          if err
+            console.log err; res.send 500
+          else
+            attributes = JSON.parse widget.allProperties true
+            objs.push attributes
+          pass()
+
 updateWidget = (req, res) ->
   _CREATE = 0
   _UPDATE = 1
@@ -57,5 +96,7 @@ updateWidget = (req, res) ->
       res.send 500
 
 _.extend exports,
+  listWidgets: listWidgets
   createWidget: updateWidget
   index: index
+  destroyUser: destroyUser

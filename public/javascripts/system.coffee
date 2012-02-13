@@ -1,42 +1,53 @@
+#Page = App.Page
+
 class Widget extends Spine.Model
   @configure 'Widget', 'widgetId', 'name', 'data', 'template'
   @extend Spine.Model.Ajax
   @url: "/widgets"
 
-class WidgetCtrl extends Spine.Controller
+
+class Index extends Spine.Controller
   constructor: ->
     @routes
       "add-widget": ->
-        console.log "#{@} WWWWWWWWWWWWWWWWWWWwww"
+        new NewWidget el: $("#up")
       "widgets": ->
-        console.log "#{@} SSSSSSSSSSSSSSSSSSSSSw"
+        new WidgetsList el: $("#main-list")
 
+class NewWidget extends Spine.Controller
+  constructor: ->
+    super
+    $("#widget-form").modal backdrop: false
   events:
-    'click #add-widget': 'add'
     'submit form': 'create'
   elements:
     "#widget-f": "form"
     "#widget-form": "formDiv"
-    "#widget-name": "name"
-    "#widget-temp": "template"
-    "#widget-data": "data"
-    "#f-widget-id": "widgetId"
-  add: ->
-    $("#widget-form").modal()
   create: (e) ->
     e.preventDefault()
-    widget = new Widget
-      widgetId: @widgetId.val()
-      name: @name.val()
-      template: @template.val()
-      data: @data.val()
+    widget = Widget.fromForm(e.target).save()
     widget.bind "ajaxSuccess", (status, xhr) =>
       @formDiv.modal 'hide'
+      e.target.reset()
     widget.bind "ajaxError", (record, xhr, settings, error) ->
       alert "对不起，新建Widget出错，请稍后再试！ #{record} #{xhr} #{settings} #{error}"
-    widget.save()
+    @navigate ''
+
+class WidgetsList extends Spine.Controller
+  elements:
+    "#main-list": "mainList"
+  constructor: ->
+    super
+    Widget.fetch()
+    @render()
+  render: =>
+    widgets = Widget.all()
+#    console.log widgets
+#    @mainList.html "widgetspp"
+    console.log(widget.name) for widget in widgets
+    @html "123p #{widgets}"
 $ ->
-  new WidgetCtrl el: $("#up")
+  new Index el: $("#up")
   Spine.Route.setup()
 
 

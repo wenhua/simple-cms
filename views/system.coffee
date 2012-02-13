@@ -1,29 +1,31 @@
 div '.span3', ->
   div '.well.sidebar-nav', ->
     ul '.nav.nav-list', ->
+      li '.nav-header', -> '用户管理'
+      li -> a '#list-user', href: '#/users', -> '用户列表'
       li '.nav-header', -> '小部件管理'
       li -> a '#add-widget.active', href: '#add-widget', -> '新建小部件'
-      li -> a '#list-widget', href: '#widgets', -> '小部件列表'
+      li -> a '#list-widget', href: '#/widgets', -> '小部件列表'
 
 div '.span9', ->
-  h4 '用户列表：'
-  div '.row', ->
-    div '.span8', ->
-      table '.table.table-striped', ->
-        thead ->
+  div '#main-list', ->
+  div '#userList', ->
+    h4 '用户列表：'
+    table '.table.table-striped', ->
+      thead ->
+        tr ->
+          th '用户'
+          th '电子邮件'
+          th '操作'
+      tbody ->
+        for user in @users
           tr ->
-            th '用户'
-            th '电子邮件'
-            th '操作'
-        tbody ->
-          for user in @users
-            tr ->
-              td ->
-                a id: user.id, href: '#', -> user.fullName
-              td ->
-                user.email
-              td ->
-                a '.del-user', id: user.id, href: '#', -> '删除'
+            td ->
+              a id: user.id, href: '#', -> user.fullName
+            td ->
+              user.email
+            td ->
+              a '.del-user', id: user.id, href: "/users/#{user.id}/delete", -> '删除'
 
 div '#widget-form.modal.hide.fade', ->
   form '#widget-f.form-horizontal', method: 'post', action: '#', ->
@@ -42,8 +44,9 @@ div '#widget-form.modal.hide.fade', ->
         label '.control-label', for: 'widget-data', -> '数据'
         div '.controls', ->
           textarea '#widget-data.input-xxlarge', rows: '6', name: 'data', placeholder: '数据', required: true
-    div '.form-actions', ->
+    div 'modal-footer', ->
       input '.btn.btn-primary', type: 'submit', value: '保存'
+      a '.btn.', href: '/system', -> '取消'
 
 
 
@@ -51,4 +54,4 @@ div '#widget-form.modal.hide.fade', ->
 
 
 
-script src: '/javascripts/system.js'
+script src: '/javascripts/sys.js'
