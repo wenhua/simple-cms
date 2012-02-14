@@ -45,8 +45,24 @@ div '#login-form.modal.hide.fade', ->
       div '.form-actions', ->
         input '.btn.btn-primary', type: 'submit', value: '登入'
 
+div '#content-form.modal.hide.fade', ->
+  form '.form-horizontal', method: 'post', action: '/coutents', ->
+    fieldset ->
+      legend '新建页面'
+      div '.control-group', ->
+        label '.control-label', for: 'title', -> '标题'
+        div '.controls', ->
+          input '.input-xxlarge', type: 'text', name: 'title', id: 'cont-title', placeholder: '页面标题', required: true
+          p '.help-block', '请输入注册时的用户名或email地址'
+      div '.control-group', ->
+        label '.control-label', for: 'link', -> '密码'
+        div '.controls', ->
+          input '.input-xlarge', type: 'password', id: 'password', name: 'password', placeholder: '密码', required: true
+      div '.form-actions', ->
+        input '.btn.btn-primary', type: 'submit', value: '登入'
 
-script src: '/javascripts/index.js'
+
+script src: '/javascripts/ind.js'
 
 
 

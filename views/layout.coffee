@@ -7,10 +7,6 @@ html ->
     link rel: 'stylesheet', href: '/vendor/bootstrap.min.2.0.0.css'
     script src: '/vendor/jquery-1.7.1.min.js'
     script src: '/vendor/bootstrap.min.2.0.0.js'
-    script src: '/vendor/spine-1.0.5/spine.js'
-    script src: '/vendor/spine-1.0.5/manager.js'
-    script src: '/vendor/spine-1.0.5/route.js'
-    script src: '/vendor/spine-1.0.5/ajax.js'
     script src: '/vendor/sammy/sammy-0.7.1.min.js'
     script src: '/vendor/handlebars-1.0.0.beta.6.js'
     script src: '/javascripts/common.js'
@@ -33,11 +29,12 @@ html ->
                   text "你好：#{@user.username} &nbsp;
                   #{yield -> a href: '/logout', '登出'} &nbsp;
                   #{yield -> a href: '/system', '系统'} &nbsp;
+                  #{yield -> a href: '#/new', '新建'} &nbsp;
                   #{yield -> a '#admin-o', href: '#', '管理'}
                   #{yield -> a '#admin-o-e', href: '#' , '退出管理'}"
               else
-                  a '#login-o.btn.btn-small.btn-primary', href: '#login' , -> '登录'
-                  a '#sigup.btn.btn-small.btn-primary', href: '#signup-form' , -> '注册'
+                  a '#login-o.btn.btn-small.btn-primary', href: '#/login' , -> '登录'
+                  a '#sigup.btn.btn-small.btn-primary', href: '#/signup' , -> '注册'
     div '.container-fluid', ->
       div '#up.row-fluid', ->
         @body
