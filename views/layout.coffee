@@ -9,6 +9,7 @@ html ->
     script src: '/vendor/bootstrap.min.2.0.0.js'
     script src: '/vendor/sammy/sammy-0.7.1.min.js'
     script src: '/vendor/handlebars-1.0.0.beta.6.js'
+    script src: '/vendor/underscore-1.3.1.min.js'
     script src: '/javascripts/common.js'
   body ->
     div '.navbar.navbar-fixed-top', ->

@@ -17,14 +17,26 @@ do ->
   ### elements ###
   loginForm = $('#login-form')
   signupForm = $('#signup-form')
+  contencForm = $('#content-form')
+  mainList = $('#main-list')
+  up = $('#up')
 
+  contentTemp = "
+    <h4>{{title}}</h4>
+    <p>{{createTime}}</p>
+    <p>{{updateTime}}</p>"
+
+  parseDate = (date) ->
+    d = new Date()
+    d.setTime date
+    "#{d.getFullYear()}/#{d.getMonth()+1}/#{d.getDate()} #{d.getHours()}:#{d.getMinutes()}:#{d.getSeconds()}"
 
   window.app = $.sammy ->
     index = (ctx) ->
-      ctx.log "index loaded"
+      yes
 
     createContent = (ctx) ->
-      ctx.log "#{@} crrrrrrrrrrr"
+      contencForm.modal()
 
     login = (ctx) ->
       loginForm.modal()
@@ -32,14 +44,22 @@ do ->
     signup = (ctx) ->
       signupForm.modal()
 
+    showContent = (ctx)->
+      (@load "/#{@params['link']}").then (i) ->
+        item = $.parseJSON i
+        item.createTime = parseDate item.createTime
+        item.updateTime = parseDate item.updateTime
+        source = contentTemp
+        template = Handlebars.compile(source)
+        up.append template item
+
     @get '/#/', index
+#    @get '/#/:link/delete', destroyContent
     @get '/#/new', createContent
     @get '/#/login', login
     @get '/#/signup', signup
-
-
-
+    @get '/#/:link', showContent
 
 $ ->
-  app.run('#/')
+  app.run('#/index')
   old()

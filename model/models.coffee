@@ -48,8 +48,24 @@ Widget = nhom.model 'Widget',
     profile:
       type: 'json'
 
+Content = nhom.model 'Content',
+  properties:
+    title:
+      type: 'string'
+      validations: ['notEmpty']
+    link:
+      type: 'string'
+      unique: yes
+      index: yes
+    createTime:
+      type: 'timestamp'
+      defaultValue: -> new Date()
+    updateTime:
+      type: 'timestamp'
+      defaultValue: -> new Date()
 
 _.extend exports,
   User: User
   Widget: Widget
+  Content: Content
 

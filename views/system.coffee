@@ -4,8 +4,10 @@ div '.span3', ->
       li '.nav-header', -> '用户管理'
       li -> a '#list-user', href: '#/users', -> '用户列表'
       li '.nav-header', -> '小部件管理'
-      li -> a '#add-widget.active', href: '#add-widget', -> '新建小部件'
+      li -> a '#add-widget.active', href: '#/widgets/new', -> '新建小部件'
       li -> a '#list-widget', href: '#/widgets', -> '小部件列表'
+      li '.nav-header', -> '内容页管理'
+      li -> a '#list-content', href: '#/contents', -> '内容页列表'
 
 div '.span9', ->
   div '#main-list', ->
@@ -14,12 +16,15 @@ div '.span9', ->
     table '.table.table-striped', ->
       thead ->
         tr ->
-          th '用户'
+          th '登录名'
+          th '全名'
           th '电子邮件'
           th '操作'
       tbody ->
         for user in @users
           tr ->
+            td ->
+              user.username
             td ->
               a id: user.id, href: '#', -> user.fullName
             td ->

@@ -1,3 +1,6 @@
+div '#main-list', ->
+
+
 div "#signup-form.modal.hide.fade", ->
   form '.form-horizontal', method: 'post', action: '/users', ->
     fieldset ->
@@ -46,20 +49,20 @@ div '#login-form.modal.hide.fade', ->
         input '.btn.btn-primary', type: 'submit', value: '登入'
 
 div '#content-form.modal.hide.fade', ->
-  form '.form-horizontal', method: 'post', action: '/coutents', ->
+  form '.form-horizontal', method: 'post', action: '/contents', ->
     fieldset ->
       legend '新建页面'
       div '.control-group', ->
         label '.control-label', for: 'title', -> '标题'
         div '.controls', ->
           input '.input-xxlarge', type: 'text', name: 'title', id: 'cont-title', placeholder: '页面标题', required: true
-          p '.help-block', '请输入注册时的用户名或email地址'
+          p '内容页的标题，可以是英文或者中文，不要超过60个字'
       div '.control-group', ->
-        label '.control-label', for: 'link', -> '密码'
+        label '.control-label', for: 'link', -> '链接'
         div '.controls', ->
-          input '.input-xlarge', type: 'password', id: 'password', name: 'password', placeholder: '密码', required: true
+          input '.input-xxlarge', type: 'text', id: 'cont-link', name: 'link', placeholder: '请使用唯一的字母、数字和-，不要有空格，【可选】'
       div '.form-actions', ->
-        input '.btn.btn-primary', type: 'submit', value: '登入'
+        input '.btn.btn-primary', type: 'submit', value: '保存'
 
 
 script src: '/javascripts/ind.js'

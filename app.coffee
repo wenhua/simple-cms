@@ -94,12 +94,17 @@ ensureAuthenticated = (req, res, next) ->
 app.get  '/', routes.index
 app.post '/sessions', (passport.authenticate 'local', failureRedirect: '/'), routes.session
 app.get  '/logout', routes.logout
-app.post '/users', routes.newUser
+app.post '/users', routes.createUser
 app.get  '/users/:id/delete', system.destroyUser
 #app.get '/system', ensureAuthenticated, system.system
 app.get  '/system', system.index
 app.get  '/widgets', system.listWidgets
+app.get  '/widgets/:id/delete', system.destroyWidget
 app.post '/widgets', system.createWidget
+app.post '/contents', routes.createContent
+app.get '/contents', routes.listContent
+app.get '/:link', routes.showContent
+app.get '/:id/delete', routes.destroyContent
 
 app.listen 3000
 console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"
