@@ -24,7 +24,8 @@ do ->
   contentTemp = "
     <h4>{{title}}</h4>
     <p>{{createTime}}</p>
-    <p>{{updateTime}}</p>"
+    <p>{{updateTime}}</p>
+    <p><a href='/#/users/{{createUserId}}'>{{createUserName}}</a></p>"
 
   parseDate = (date) ->
     d = new Date()

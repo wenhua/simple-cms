@@ -47,7 +47,13 @@ createContent = (req, res) ->
   delete attributes.id
   content = nohm.factory 'Content'
 
+  user = new models.User
+  user.load req.user.id, (err, props) ->
+    if err
+      no
+
   content.p attributes
+  content.link user, 'createdBy'
   content.save  (err) ->
     if not err
       if attributes.link is ''
@@ -92,19 +98,26 @@ listContent = (req, res) ->
           pass()
 
 showContent = (req, res) ->
-  console.log "#{req.params.link} llllllllll"
   (new models.Content).find {link: req.params.link}, (err, ids) ->
     if err
       console.log err; res.send 500
     else
-      console.log "#{ids.length} iiiiiiiiiiiii"
       content = new models.Content
       content.load ids[0], (err, props) ->
         if err
           console.log err; res.send 500
         else
           attributes = JSON.parse content.allProperties true
-          res.json attributes
+          content.getAll 'User', 'createdBy', (err, cIds) ->
+            user = new models.User
+            user.load cIds[0], (err, props) ->
+              if err
+                no
+              else
+                attributes.createUserId = cIds[0]
+                attributes.createUserName = "#{props.firstName}#{props.lastName}"
+                console.dir attributes
+                res.json attributes
 
 destroyContent = (req, res) ->
   id = req.params.id

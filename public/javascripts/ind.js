@@ -27,7 +27,7 @@
     contencForm = $('#content-form');
     mainList = $('#main-list');
     up = $('#up');
-    contentTemp = "    <h4>{{title}}</h4>    <p>{{createTime}}</p>    <p>{{updateTime}}</p>";
+    contentTemp = "    <h4>{{title}}</h4>    <p>{{createTime}}</p>    <p>{{updateTime}}</p>    <p><a href='/#/users/{{createUserId}}'>{{createUserName}}</a></p>";
     parseDate = function(date) {
       var d;
       d = new Date();
