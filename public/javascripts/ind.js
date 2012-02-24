@@ -18,7 +18,7 @@
   };
 
   (function() {
-    var $, contencForm, contentTemp, loginForm, mainList, parseDate, signupForm, up;
+    var $, contencForm, contentTemp, loginForm, mainArea, mainList, navTemp, parseDate, signupForm, subnav, up;
     $ = jQuery;
     /* elements
     */
@@ -26,8 +26,11 @@
     signupForm = $('#signup-form');
     contencForm = $('#content-form');
     mainList = $('#main-list');
+    mainArea = $('#main-area');
     up = $('#up');
+    subnav = $('#subnav');
     contentTemp = "    <h4>{{title}}</h4>    <p>{{createTime}}</p>    <p>{{updateTime}}</p>    <p><a href='/#/users/{{createUserId}}'>{{createUserName}}</a></p>";
+    navTemp = "    <ul class='nav nav-pills'>        {{#navItems}}        <li><a href='/#/{{link}}'>{{title}}</a></li>        {{#navItems}}        <li><a href='/system'>系统</a></li>    </ul>";
     parseDate = function(date) {
       var d;
       d = new Date();
@@ -35,10 +38,15 @@
       return "" + (d.getFullYear()) + "/" + (d.getMonth() + 1) + "/" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
     };
     return window.app = $.sammy(function() {
-      var createContent, index, login, showContent, signup;
-      index = function(ctx) {
-        return true;
-      };
+      var createContent, login, showContent, signup;
+      this.around(function(fn) {
+        var ctx;
+        ctx = this;
+        console.log("" + this + " dddddddddddd");
+        (this.load("/widgets")).then(function(widgets) {
+          return console.log("" + this);
+        }).then(fn);
+      });
       createContent = function(ctx) {
         return contencForm.modal();
       };
@@ -56,10 +64,9 @@
           item.updateTime = parseDate(item.updateTime);
           source = contentTemp;
           template = Handlebars.compile(source);
-          return up.append(template(item));
+          return mainArea.html(template(item));
         });
       };
-      this.get('/#/', index);
       this.get('/#/new', createContent);
       this.get('/#/login', login);
       this.get('/#/signup', signup);

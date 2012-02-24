@@ -112,7 +112,7 @@ showContent = (req, res) ->
             user = new models.User
             user.load cIds[0], (err, props) ->
               if err
-                no
+                console.log err; res.send 500
               else
                 attributes.createUserId = cIds[0]
                 attributes.createUserName = "#{props.firstName}#{props.lastName}"

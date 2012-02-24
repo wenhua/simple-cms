@@ -17,14 +17,6 @@ html ->
         div '.container-fluid', ->
           a '.brand', href: '/' , -> "#{@sitename or '无名小站'}"
           div '.nav-collapse', ->
-            ul '.nav', ->
-              li '.active', ->
-                a href: '/' , ->
-                  i class: 'icon-home icon-white'
-                  "首页"
-              li ->
-                a href: '/system' , ->
-                  "系统"
             p '#nav-r-o.navbar-text.pull-right', ->
               if @user
                   text "你好：#{@user.username} &nbsp;
@@ -36,6 +28,20 @@ html ->
               else
                   a '#login-o.btn.btn-small.btn-primary', href: '#/login' , -> '登录'
                   a '#sigup.btn.btn-small.btn-primary', href: '#/signup' , -> '注册'
+    div '#subnav.subnav', ->
+      ul '.nav.nav-pills', ->
+        li -> a href: '/#/index', -> '首页'
+        li -> a href: '/#/ss', -> 'SSD'
+        li '.dropdown', -> a ".dropdown-toggle", href: "#", 'data-toggle': "dropdown", ->
+          text "服务 #{yield -> b '.caret', -> }"
+          ul '.dropdown-menu', ->
+            li -> a href: '/#/s1', -> 'S01'
+            li -> a href: '/#/s2', -> 'S02'
+        li -> a href: '/system' , -> "系统"
+
+
+
+
     div '.container-fluid', ->
       div '#up.row-fluid', ->
         @body

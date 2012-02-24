@@ -1,4 +1,5 @@
 div '#main-list', ->
+div '#main-area', ->
 
 
 div "#signup-form.modal.hide.fade", ->

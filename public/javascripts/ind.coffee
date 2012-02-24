@@ -19,7 +19,9 @@ do ->
   signupForm = $('#signup-form')
   contencForm = $('#content-form')
   mainList = $('#main-list')
+  mainArea = $('#main-area')
   up = $('#up')
+  subnav = $('#subnav')
 
   contentTemp = "
     <h4>{{title}}</h4>
@@ -27,15 +29,38 @@ do ->
     <p>{{updateTime}}</p>
     <p><a href='/#/users/{{createUserId}}'>{{createUserName}}</a></p>"
 
+  navTemp = "
+    <ul class='nav nav-pills'>
+        {{#navItems}}
+        <li><a href='/#/{{link}}'>{{title}}</a></li>
+        {{#navItems}}
+        <li><a href='/system'>系统</a></li>
+    </ul>"
+
   parseDate = (date) ->
     d = new Date()
     d.setTime date
     "#{d.getFullYear()}/#{d.getMonth()+1}/#{d.getDate()} #{d.getHours()}:#{d.getMinutes()}:#{d.getSeconds()}"
 
   window.app = $.sammy ->
-    index = (ctx) ->
-      yes
+    @around (fn) ->
+      ctx = @
+      console.log "#{@} dddddddddddd"
 
+    #      source = navTemp
+#      template = Handlebars.compile(source)
+#      item =
+#        navItems: [{
+#          link: 'index'
+#          title: 'Home'
+#
+#        }]
+#      subnav.append template item
+      (@load "/widgets")
+        .then (widgets) ->
+          console.log "#{@}"
+        .then fn
+      return
     createContent = (ctx) ->
       contencForm.modal()
 
@@ -52,9 +77,9 @@ do ->
         item.updateTime = parseDate item.updateTime
         source = contentTemp
         template = Handlebars.compile(source)
-        up.append template item
+        mainArea.html template item
 
-    @get '/#/', index
+#    @get '/#/', index
 #    @get '/#/:link/delete', destroyContent
     @get '/#/new', createContent
     @get '/#/login', login
