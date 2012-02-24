@@ -48,7 +48,8 @@ createContent = (req, res) ->
   content = nohm.factory 'Content'
 
   user = new models.User
-  user.load req.user.id, (err, props) ->
+  userId = req.user.id
+  user.load userId, (err, props) ->
     if err
       no
 
@@ -61,7 +62,7 @@ createContent = (req, res) ->
         content.p attributes
         content.save (err) ->
           if err then res.send 500
-      res.redirect("/#/#{attributes.link}")
+      res.redirect "/#/#{attributes.link}"
 #      res.json
 #        result: true
 #        data: content.allProperties()

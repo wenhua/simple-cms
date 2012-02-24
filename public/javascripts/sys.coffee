@@ -16,26 +16,26 @@ do ->
     <h4>小部件列表</h4>
     <table id='widget-list' class='table table-striped'>
         <thead>
-        <tr>
-            <th>名称</th>
-            <th>数据</th>
-            <th>模板</th>
-            <th>创建时间</th>
-            <th>更新时间</th>
-            <th>操作</th>
-        </tr>
+          <tr>
+              <th>名称</th>
+              <th>数据</th>
+              <th>模板</th>
+              <th>创建时间</th>
+              <th>更新时间</th>
+              <th>操作</th>
+          </tr>
         </thead>
         <tbody>
-        {{#widgets}}
-        <tr>
-            <td><a href='#/widgets/{{id}}'>{{name}}</a></td>
-            <td>{{data}}</td>
-            <td>{{template}}</td>
-            <td>{{createDate}}</td>
-            <td>{{updateDate}}</td>
-            <td><a href='/widgets/{{id}}/delete'>删除</a></td>
-        </tr>
-        {{/widgets}}
+          {{#widgets}}
+          <tr>
+              <td><a href='#/widgets/{{id}}'>{{name}}</a></td>
+              <td>{{data}}</td>
+              <td>{{template}}</td>
+              <td>{{createDate}}</td>
+              <td>{{updateDate}}</td>
+              <td><a href='/widgets/{{id}}/delete'>删除</a></td>
+          </tr>
+          {{/widgets}}
         </tbody>
     </table>"
 
@@ -51,14 +51,14 @@ do ->
         </tr>
         </thead>
         <tbody>
-        {{#contents}}
-        <tr>
-            <td><a href='/#/{{link}}'>{{title}}</a></td>
-            <td>{{createTime}}</td>
-            <td>{{updateTime}}</td>
-            <td><a href='/{{id}}/delete'>删除</a></td>
-        </tr>
-        {{/contents}}
+          {{#contents}}
+          <tr>
+              <td><a href='/#/{{link}}'>{{title}}</a></td>
+              <td>{{createTime}}</td>
+              <td>{{updateTime}}</td>
+              <td><a href='/{{id}}/delete'>删除</a></td>
+          </tr>
+          {{/contents}}
         </tbody>
     </table>"
 
@@ -66,8 +66,7 @@ do ->
 
     listWidgets = ->
       (@load '/widgets').then (items) ->
-        source = widgetsTemp
-        template = Handlebars.compile(source)
+        template = Handlebars.compile(widgetsTemp)
         mainList.html template $.parseJSON items
 
     createWidget = (ctx) ->
@@ -83,7 +82,6 @@ do ->
         template = Handlebars.compile(source)
         mainList.html template items
 
-    @get '#/', index
     @get '#/widgets', listWidgets
     @get '#/widgets/new', createWidget
     @get '#/contents', listContent

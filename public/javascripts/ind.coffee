@@ -32,8 +32,18 @@ do ->
   navTemp = "
     <ul class='nav nav-pills'>
         {{#navItems}}
-        <li><a href='/#/{{link}}'>{{title}}</a></li>
-        {{#navItems}}
+          {{#if dropdown}}
+              <li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='{{link}}'n>{{title}}<b class='caret'></b></a>
+                <ul class='dropdown-menu'>
+                    {{#dropdown}}
+                    <li><a href='/#/{{link}}'>{{title}}</a></li>
+                    {{/dropdown}}
+                </ul>
+              </li>
+          {{else}}
+              <li><a href='/#/{{link}}'>{{title}}</a></li>
+          {{/if}}
+        {{/navItems}}
         <li><a href='/system'>系统</a></li>
     </ul>"
 
@@ -45,22 +55,33 @@ do ->
   window.app = $.sammy ->
     @around (fn) ->
       ctx = @
-      console.log "#{@} dddddddddddd"
-
-    #      source = navTemp
-#      template = Handlebars.compile(source)
-#      item =
-#        navItems: [{
-#          link: 'index'
-#          title: 'Home'
-#
-#        }]
-#      subnav.append template item
       (@load "/widgets")
         .then (widgets) ->
-          console.log "#{@}"
+          template = Handlebars.compile(navTemp)
+          item =
+            navItems: [{
+              link: 'index'
+              title: 'Home'
+            },
+            {
+              link: 'ss'
+              title: '硬盘'
+            },
+            {
+              dropdown: [{
+                link: 's1'
+                title: '服务1'
+              }, {
+                link: 'fff'
+                title: '服务2'
+              }
+              ]
+              link: '#'
+              title: '服务'
+            }]
+          subnav.html template item
         .then fn
-      return
+        return
     createContent = (ctx) ->
       contencForm.modal()
 

@@ -30,7 +30,7 @@
     up = $('#up');
     subnav = $('#subnav');
     contentTemp = "    <h4>{{title}}</h4>    <p>{{createTime}}</p>    <p>{{updateTime}}</p>    <p><a href='/#/users/{{createUserId}}'>{{createUserName}}</a></p>";
-    navTemp = "    <ul class='nav nav-pills'>        {{#navItems}}        <li><a href='/#/{{link}}'>{{title}}</a></li>        {{#navItems}}        <li><a href='/system'>系统</a></li>    </ul>";
+    navTemp = "    <ul class='nav nav-pills'>        {{#navItems}}          {{#if dropdown}}              <li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='{{link}}'n>{{title}}<b class='caret'></b></a>                <ul class='dropdown-menu'>                    {{#dropdown}}                    <li><a href='/#/{{link}}'>{{title}}</a></li>                    {{/dropdown}}                </ul>              </li>          {{else}}              <li><a href='/#/{{link}}'>{{title}}</a></li>          {{/if}}        {{/navItems}}        <li><a href='/system'>系统</a></li>    </ul>";
     parseDate = function(date) {
       var d;
       d = new Date();
@@ -42,9 +42,33 @@
       this.around(function(fn) {
         var ctx;
         ctx = this;
-        console.log("" + this + " dddddddddddd");
         (this.load("/widgets")).then(function(widgets) {
-          return console.log("" + this);
+          var item, template;
+          template = Handlebars.compile(navTemp);
+          item = {
+            navItems: [
+              {
+                link: 'index',
+                title: 'Home'
+              }, {
+                link: 'ss',
+                title: '硬盘'
+              }, {
+                dropdown: [
+                  {
+                    link: 's1',
+                    title: '服务1'
+                  }, {
+                    link: 'fff',
+                    title: '服务2'
+                  }
+                ],
+                link: '#',
+                title: '服务'
+              }
+            ]
+          };
+          return subnav.html(template(item));
         }).then(fn);
       });
       createContent = function(ctx) {

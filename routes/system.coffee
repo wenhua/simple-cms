@@ -22,6 +22,7 @@ index =  (req, res) ->
         res.render 'system',
           user: req.user
           users: (_ objs).map parseUser
+          sitename: '我的小站'
       _.each ids, (id) ->
         user = new models.User
         user.load id, (err, props) ->
@@ -89,6 +90,7 @@ updateWidget = (req, res) ->
   _CREATE = 0
   _UPDATE = 1
   attributes = (_ req.body).clone()
+  console.log "#{req}"
   id = attributes.widgetId
   action = if id is attributes.id then _UPDATE else _CREATE
   now = (new Date()).getTime()
@@ -100,9 +102,7 @@ updateWidget = (req, res) ->
   widget.p attributes
   widget.save  (err) ->
     if not err
-      res.json
-        result: true
-        data: widget.allProperties()
+      res.redirect "/system#/widgets"
     else if err is 'invalid'
       res.json err: '输入数据不符合规范，请检查'
     else
