@@ -1,3 +1,43 @@
+editWidgetTable = ->
+#  editFields = $('#widget-list > tbody > tr .editable')
+  editFields = $('body')
+#  editFields.on 'click', '#widget-list > tbody > tr .editable', ->
+#    td = $(@)
+#    oldText = td.text()
+#    textArea ="
+#      <textarea rows='6' cols='120'>#{oldText}</textarea>
+#      <p><a href='#'>修改</a>&nbsp;&nbsp;&nbsp;<a class='edit-cancel' href='#'>取消</a></p>
+#      "
+#    input = $(textArea)
+#    (td.html input).click ->
+#      no
+#    (input.css "border-width","0").css "width","500px"
+#    (input.find ".edit-cancel").click ->
+#      td.html oldText
+  editFields.on 'mouseover', '#widget-list > tbody > tr .editable', -> ($(@).find 'a').show()
+  editFields.on 'mouseout', '#widget-list > tbody > tr .editable', -> ($(@).find 'a').hide()
+  editFields.on 'click', '#widget-list > tbody > tr .editable .update-widget', ->
+    td = $(@).parent()
+    $(@).html ''
+
+    oldText = td.text()
+    console.log oldText
+
+#    oldText = td.text()
+#    textArea ="
+#      <textarea rows='6' cols='120'>#{oldText}</textarea>
+#      <p><a href='#'>修改</a>&nbsp;&nbsp;&nbsp;<a class='edit-cancel' href='#'>取消</a></p>
+#      "
+#    input = $(textArea)
+#    (td.html input).click ->
+#      no
+#    (input.css "border-width","0").css "width","500px"
+#    (input.find ".edit-cancel").click ->
+#      td.html oldText
+
+
+
+
 do ->
   $ = jQuery
   ### elements ###
@@ -29,8 +69,8 @@ do ->
           {{#widgets}}
           <tr>
               <td><a href='#/widgets/{{id}}'>{{name}}</a></td>
-              <td>{{data}}</td>
-              <td>{{template}}</td>
+              <td class='editable'>{{data}}<a class='hide update-widget' href='#'>修改</a></td>
+              <td class='editable'>{{template}}<a class='hide update-widget' href='#'>修改</a></td>
               <td>{{createDate}}</td>
               <td>{{updateDate}}</td>
               <td><a href='/widgets/{{id}}/delete'>删除</a></td>
@@ -87,4 +127,5 @@ do ->
     @get '#/contents', listContent
 
 $ ->
+  editWidgetTable()
   app.run('#/')

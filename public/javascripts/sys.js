@@ -1,4 +1,23 @@
 (function() {
+  var editWidgetTable;
+
+  editWidgetTable = function() {
+    var editFields;
+    editFields = $('body');
+    editFields.on('mouseover', '#widget-list > tbody > tr .editable', function() {
+      return ($(this).find('a')).show();
+    });
+    editFields.on('mouseout', '#widget-list > tbody > tr .editable', function() {
+      return ($(this).find('a')).hide();
+    });
+    return editFields.on('click', '#widget-list > tbody > tr .editable .update-widget', function() {
+      var oldText, td;
+      td = $(this).parent();
+      $(this).html('');
+      oldText = td.text();
+      return console.log(oldText);
+    });
+  };
 
   (function() {
     var $, contentsTemp, index, mainList, parseDate, widgetForm, widgetsTemp;
@@ -16,7 +35,7 @@
       d.setTime(date);
       return "" + (d.getFullYear()) + "/" + (d.getMonth() + 1) + "/" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
     };
-    widgetsTemp = "    <h4>小部件列表</h4>    <table id='widget-list' class='table table-striped'>        <thead>          <tr>              <th>名称</th>              <th>数据</th>              <th>模板</th>              <th>创建时间</th>              <th>更新时间</th>              <th>操作</th>          </tr>        </thead>        <tbody>          {{#widgets}}          <tr>              <td><a href='#/widgets/{{id}}'>{{name}}</a></td>              <td>{{data}}</td>              <td>{{template}}</td>              <td>{{createDate}}</td>              <td>{{updateDate}}</td>              <td><a href='/widgets/{{id}}/delete'>删除</a></td>          </tr>          {{/widgets}}        </tbody>    </table>";
+    widgetsTemp = "    <h4>小部件列表</h4>    <table id='widget-list' class='table table-striped'>        <thead>          <tr>              <th>名称</th>              <th>数据</th>              <th>模板</th>              <th>创建时间</th>              <th>更新时间</th>              <th>操作</th>          </tr>        </thead>        <tbody>          {{#widgets}}          <tr>              <td><a href='#/widgets/{{id}}'>{{name}}</a></td>              <td class='editable'>{{data}}<a class='hide update-widget' href='#'>修改</a></td>              <td class='editable'>{{template}}<a class='hide update-widget' href='#'>修改</a></td>              <td>{{createDate}}</td>              <td>{{updateDate}}</td>              <td><a href='/widgets/{{id}}/delete'>删除</a></td>          </tr>          {{/widgets}}        </tbody>    </table>";
     contentsTemp = "    <h4>内容页列表</h4>    <table id='content-list' class='table table-striped'>        <thead>        <tr>            <th>页面</th>            <th>创建时间</th>            <th>更新时间</th>            <th>操作</th>        </tr>        </thead>        <tbody>          {{#contents}}          <tr>              <td><a href='/#/{{link}}'>{{title}}</a></td>              <td>{{createTime}}</td>              <td>{{updateTime}}</td>              <td><a href='/{{id}}/delete'>删除</a></td>          </tr>          {{/contents}}        </tbody>    </table>";
     return window.app = $.sammy(function() {
       var createWidget, listContent, listWidgets;
@@ -50,6 +69,7 @@
   })();
 
   $(function() {
+    editWidgetTable();
     return app.run('#/');
   });
 
