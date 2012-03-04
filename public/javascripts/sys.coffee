@@ -1,7 +1,7 @@
 editWidgetTable = ->
 #  editFields = $('#widget-list > tbody > tr .editable')
-  editFields = $('body')
-#  editFields.on 'click', '#widget-list > tbody > tr .editable', ->
+#  $editFields = $('#main-list')
+#  $editFields.on 'click', '#main-list > #widget-list > tbody > tr .editable', ->
 #    td = $(@)
 #    oldText = td.text()
 #    textArea ="
@@ -14,28 +14,30 @@ editWidgetTable = ->
 #    (input.css "border-width","0").css "width","500px"
 #    (input.find ".edit-cancel").click ->
 #      td.html oldText
-  editFields.on 'mouseover', '#widget-list > tbody > tr .editable', -> ($(@).find 'a').show()
-  editFields.on 'mouseout', '#widget-list > tbody > tr .editable', -> ($(@).find 'a').hide()
-  editFields.on 'click', '#widget-list > tbody > tr .editable .update-widget', ->
-    td = $(@).parent()
-    $(@).html ''
 
-    oldText = td.text()
-    console.log oldText
-
-#    oldText = td.text()
-#    textArea ="
-#      <textarea rows='6' cols='120'>#{oldText}</textarea>
-#      <p><a href='#'>修改</a>&nbsp;&nbsp;&nbsp;<a class='edit-cancel' href='#'>取消</a></p>
-#      "
-#    input = $(textArea)
-#    (td.html input).click ->
-#      no
-#    (input.css "border-width","0").css "width","500px"
-#    (input.find ".edit-cancel").click ->
-#      td.html oldText
-
-
+  $editFields = $('#main-list')
+  $editFields.on 'click', '#main-list > #widget-list > tbody > tr .editable', ->
+    $td = $(@)
+    if $td.children("textarea").length > 0 then no
+    oldText = $td.text()
+    $input = $ "<textarea rows='6' cols='100'>#{oldText}</textarea>
+      <p><a href='#' class='edit-save'>保存</a>&nbsp;&nbsp;&nbsp;
+      <a class='edit-cancel' href='#/'>取消</a></p>"
+    $td.html($input)
+    $input.css("border-width","0").width($td.width())
+      .trigger("focus").trigger("select").click -> no
+    ($input.find ".edit-cancel").click ->
+      $td.html oldText
+      no
+    ($input.find ".edit-save").click ->
+      text = $(@).parent().prev().val()
+#      obj = "{#{$td.attr 'name'}: '#{text}'}"
+#      obj = $.parseJSON "{#{$td.attr 'name'}: #{text}}"
+      $.post "/widgets/#{$td.parent().attr 'id'}", {
+          key: $td.attr 'name'
+          value: text }
+      $td.html text
+      no
 
 
 do ->
@@ -67,10 +69,10 @@ do ->
         </thead>
         <tbody>
           {{#widgets}}
-          <tr>
+          <tr id='{{id}}'>
               <td><a href='#/widgets/{{id}}'>{{name}}</a></td>
-              <td class='editable'>{{data}}<a class='hide update-widget' href='#'>修改</a></td>
-              <td class='editable'>{{template}}<a class='hide update-widget' href='#'>修改</a></td>
+              <td class='editable' name='data'>{{data}}</td>
+              <td class='editable' name='template'>{{template}}</td>
               <td>{{createDate}}</td>
               <td>{{updateDate}}</td>
               <td><a href='/widgets/{{id}}/delete'>删除</a></td>

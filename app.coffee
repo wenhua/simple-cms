@@ -100,7 +100,7 @@ app.get  '/users/:id/delete', system.destroyUser
 app.get  '/system', system.index
 app.get  '/widgets', system.listWidgets
 app.get  '/widgets/:id/delete', system.destroyWidget
-app.post  '/widgets/:id/update', system.createWidget
+app.post  '/widgets/:id', system.updateWidget
 app.post '/widgets', system.createWidget
 app.post '/contents', routes.createContent
 app.get '/contents', routes.listContent

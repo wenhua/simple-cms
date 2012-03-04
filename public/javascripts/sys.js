@@ -2,20 +2,32 @@
   var editWidgetTable;
 
   editWidgetTable = function() {
-    var editFields;
-    editFields = $('body');
-    editFields.on('mouseover', '#widget-list > tbody > tr .editable', function() {
-      return ($(this).find('a')).show();
-    });
-    editFields.on('mouseout', '#widget-list > tbody > tr .editable', function() {
-      return ($(this).find('a')).hide();
-    });
-    return editFields.on('click', '#widget-list > tbody > tr .editable .update-widget', function() {
-      var oldText, td;
-      td = $(this).parent();
-      $(this).html('');
-      oldText = td.text();
-      return console.log(oldText);
+    var $editFields;
+    $editFields = $('#main-list');
+    return $editFields.on('click', '#main-list > #widget-list > tbody > tr .editable', function() {
+      var $input, $td, oldText;
+      $td = $(this);
+      if ($td.children("textarea").length > 0) false;
+      oldText = $td.text();
+      $input = $("<textarea rows='6' cols='100'>" + oldText + "</textarea>      <p><a href='#' class='edit-save'>保存</a>&nbsp;&nbsp;&nbsp;      <a class='edit-cancel' href='#/'>取消</a></p>");
+      $td.html($input);
+      $input.css("border-width", "0").width($td.width()).trigger("focus").trigger("select").click(function() {
+        return false;
+      });
+      ($input.find(".edit-cancel")).click(function() {
+        $td.html(oldText);
+        return false;
+      });
+      return ($input.find(".edit-save")).click(function() {
+        var text;
+        text = $(this).parent().prev().val();
+        $.post("/widgets/" + ($td.parent().attr('id')), {
+          key: $td.attr('name'),
+          value: text
+        });
+        $td.html(text);
+        return false;
+      });
     });
   };
 
@@ -35,7 +47,7 @@
       d.setTime(date);
       return "" + (d.getFullYear()) + "/" + (d.getMonth() + 1) + "/" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
     };
-    widgetsTemp = "    <h4>小部件列表</h4>    <table id='widget-list' class='table table-striped'>        <thead>          <tr>              <th>名称</th>              <th>数据</th>              <th>模板</th>              <th>创建时间</th>              <th>更新时间</th>              <th>操作</th>          </tr>        </thead>        <tbody>          {{#widgets}}          <tr>              <td><a href='#/widgets/{{id}}'>{{name}}</a></td>              <td class='editable'>{{data}}<a class='hide update-widget' href='#'>修改</a></td>              <td class='editable'>{{template}}<a class='hide update-widget' href='#'>修改</a></td>              <td>{{createDate}}</td>              <td>{{updateDate}}</td>              <td><a href='/widgets/{{id}}/delete'>删除</a></td>          </tr>          {{/widgets}}        </tbody>    </table>";
+    widgetsTemp = "    <h4>小部件列表</h4>    <table id='widget-list' class='table table-striped'>        <thead>          <tr>              <th>名称</th>              <th>数据</th>              <th>模板</th>              <th>创建时间</th>              <th>更新时间</th>              <th>操作</th>          </tr>        </thead>        <tbody>          {{#widgets}}          <tr id='{{id}}'>              <td><a href='#/widgets/{{id}}'>{{name}}</a></td>              <td class='editable' name='data'>{{data}}</td>              <td class='editable' name='template'>{{template}}</td>              <td>{{createDate}}</td>              <td>{{updateDate}}</td>              <td><a href='/widgets/{{id}}/delete'>删除</a></td>          </tr>          {{/widgets}}        </tbody>    </table>";
     contentsTemp = "    <h4>内容页列表</h4>    <table id='content-list' class='table table-striped'>        <thead>        <tr>            <th>页面</th>            <th>创建时间</th>            <th>更新时间</th>            <th>操作</th>        </tr>        </thead>        <tbody>          {{#contents}}          <tr>              <td><a href='/#/{{link}}'>{{title}}</a></td>              <td>{{createTime}}</td>              <td>{{updateTime}}</td>              <td><a href='/{{id}}/delete'>删除</a></td>          </tr>          {{/contents}}        </tbody>    </table>";
     return window.app = $.sammy(function() {
       var createWidget, listContent, listWidgets;
